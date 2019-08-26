@@ -6,4 +6,5 @@ const model = new AsteroidsModel(),
 	view = new AsteroidsView(),
 	controller = new AsteroidsController(model, view);
 
+controller.lastTime = Date.now();
 controller.gameRender();

@@ -14,7 +14,8 @@ export default class AsteroidsModel {
 			spaceship: 60
 		};
 
-		
+		this.asteroidSpeed = 230;
+
 		this.asteroids = [];
 
 		this.ssDirection = {
@@ -27,7 +28,7 @@ export default class AsteroidsModel {
 		this.spaceship = {
 			x: 0,
 			y: 0,
-			speed: 7
+			speed: 300
 		};
 		this.spaceStation = {
 			x: this.sizes.canvas.width - this.sizes.spaceship,
@@ -35,9 +36,10 @@ export default class AsteroidsModel {
 		};
 	}
 
-	setAsteroids (amount, speed) {
+	setAsteroids (amount) {
 		const min = this.sizes.spaceship*2,
-			self = this;
+			self = this,
+			speed = this.asteroidSpeed;
 		let	x = random("width"),
 			y = random("height");
 
@@ -78,33 +80,34 @@ export default class AsteroidsModel {
 	levelUp () {
 		this.level++;
 		this.resetStarship();
-		this.setAsteroids(this.level, 4);
+		this.setAsteroids(this.level);
 }
 
-	spaceshipCoordsChange () {
+	spaceshipCoordsChange (dt) {
 		const ssDirection = this.ssDirection,
 			sizes = this.sizes,
-			coords = this.spaceship;
+			coords = this.spaceship,
+			speed = coords.speed;
 
 		for (let i in ssDirection) {
 			if ( ssDirection[i] ) {
 				switch(i) {
 					case "left":
-						if (coords.x > coords.speed) coords.x -= coords.speed;
+						if (coords.x > speed * dt) coords.x -= speed * dt;
 						else coords.x = 0;
 						break;
 					case "top":
-						if (coords.y > coords.speed) coords.y -= coords.speed;
+						if (coords.y > speed * dt) coords.y -= speed * dt;
 						else coords.y = 0;
 						break;
 					case "right":
-						if (sizes.canvas.width - coords.x > sizes.spaceship + coords.speed) 
-							coords.x += coords.speed;
+						if (sizes.canvas.width - coords.x > sizes.spaceship + speed * dt) 
+							coords.x += speed * dt;
 						else coords.x = sizes.canvas.width - sizes.spaceship;
 						break;
 					case "bottom":
-						if (sizes.canvas.height - coords.y > sizes.spaceship + coords.speed) 
-							coords.y += coords.speed;
+						if (sizes.canvas.height - coords.y > sizes.spaceship + speed * dt) 
+							coords.y += speed * dt;
 						else coords.y = sizes.canvas.height - sizes.spaceship;
 						break;
 				}
@@ -112,7 +115,7 @@ export default class AsteroidsModel {
 		}
 	}
 
-	asteroidsBouncing () {
+	asteroidsBouncing (dt) {
 
 		// check for collisions with border
 
@@ -120,18 +123,18 @@ export default class AsteroidsModel {
 			size = this.sizes.asteroid;
 		
 		asts.forEach((ast, i) => {
-			if (ast.x + ast.dx > this.sizes.canvas.width-size || ast.x + ast.dx < 0) {
+			if (ast.x + ast.dx * dt > this.sizes.canvas.width-size || ast.x + ast.dx * dt < 0) {
 			    ast.dx = -ast.dx;
 			}
-			if (ast.y + ast.dy > this.sizes.canvas.height-size || ast.y + ast.dy < 0) {
+			if (ast.y + ast.dy * dt > this.sizes.canvas.height-size || ast.y + ast.dy * dt < 0) {
 			   ast.dy = -ast.dy;
 			}
 
 			// check for collisions between asteroids
 
 			for (let j = i + 1; j < asts.length; j++) {
-				if ( Math.abs( ast.x + ast.dx - asts[j].x - asts[j].dx ) < size &&
-				Math.abs( ast.y + ast.dy - asts[j].y - asts[j].dy ) < size ) {
+				if ( Math.abs( ast.x + ast.dx  * dt - asts[j].x - asts[j].dx * dt ) < size &&
+				Math.abs( ast.y + ast.dy * dt - asts[j].y - asts[j].dy * dt ) < size ) {
 
 					// find out direction after collission
 
@@ -149,8 +152,8 @@ export default class AsteroidsModel {
 
 			// change asteroid position
 
-			asts[i].x += asts[i].dx;
-			asts[i].y += asts[i].dy;
+			asts[i].x += asts[i].dx * dt;
+			asts[i].y += asts[i].dy * dt;
 		})
 		return this;		
 	}

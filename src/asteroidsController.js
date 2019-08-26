@@ -3,9 +3,10 @@ export default class AsteroidsController {
 	constructor (Model, View) {
 		this.model = Model;
 		this.view = View;
+		this.lastTime = 0;
 
 		this.view.setCanvas(this.model.sizes.canvas);
-		this.model.setAsteroids(this.model.level, 4);
+		this.model.setAsteroids(this.model.level);
 		this.view.bind("keydown", this.keyDownHandler.bind(this));
 		this.view.bind("keyup", this.keyUpHandler.bind(this));
 	}
@@ -13,7 +14,8 @@ export default class AsteroidsController {
 	gameRender () {
 		const asts = this.model.asteroids,
 			spaceship = this.model.spaceship,
-			sizes = this.model.sizes;
+			sizes = this.model.sizes,
+			dt = (Date.now() - this.lastTime) / 1000.0;
 		
 		this.view.drawAll({
 			spaceStation: this.model.spaceStation, 
@@ -25,8 +27,10 @@ export default class AsteroidsController {
 		this.checkLose(asts, spaceship, sizes)
 			.checkWin(spaceship, sizes);
 	
-		this.model.asteroidsBouncing()
-			.spaceshipCoordsChange();
+		this.model.asteroidsBouncing(dt)
+			.spaceshipCoordsChange(dt);
+
+		this.lastTime = Date.now();
 		
 		requestAnimationFrame(this.gameRender.bind(this));
 	}
