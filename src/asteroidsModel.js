@@ -28,7 +28,8 @@ export default class AsteroidsModel {
 		this.spaceship = {
 			x: 0,
 			y: 0,
-			speed: 300
+			speed: 300,
+			destroyed: false
 		};
 		this.spaceStation = {
 			x: this.sizes.canvas.width - this.sizes.spaceship,
@@ -81,7 +82,12 @@ export default class AsteroidsModel {
 		this.level++;
 		this.resetStarship();
 		this.setAsteroids(this.level);
-}
+	}
+
+	destroySpaceship() {
+		this.spaceship.destroyed = true;
+		this.stopStarship();
+	}
 
 	spaceshipCoordsChange (dt) {
 		const ssDirection = this.ssDirection,
@@ -198,6 +204,10 @@ export default class AsteroidsModel {
 	resetStarship () {
 		this.spaceship.x = this.spaceship.y = 0;
 		this.gameBegin = false;
+		this.stopStarship();
+	}
+
+	stopStarship () {
 		for (let direction in this.ssDirection) 
 			this.ssDirection[direction] = false;
 	}

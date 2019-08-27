@@ -5,9 +5,10 @@ export default class AsteroidsController {
 		this.view = View;
 		this.lastTime = 0;
 
-		this.view.setCanvas(this.model.sizes.canvas);
+		this.view.setCanvas(this.model.sizes);
 		this.model.setAsteroids(this.model.level);
-		this.view.bind("keydown", this.keyDownHandler.bind(this));
+		this.keyDownHandler = this.keyDownHandler.bind(this);
+		this.view.bind("keydown", this.keyDownHandler);
 		this.view.bind("keyup", this.keyUpHandler.bind(this));
 	}
 
@@ -22,9 +23,10 @@ export default class AsteroidsController {
 			spaceship: spaceship,
 			asteroids: asts}, 
 			sizes,
-			this.model.gameBegin);
+			this.model.gameBegin,
+			dt);
 
-		this.checkLose(asts, spaceship, sizes)
+		this.checkLose(asts, spaceship, sizes, dt)
 			.checkWin(spaceship, sizes);
 	
 		this.model.asteroidsBouncing(dt)
@@ -46,21 +48,32 @@ export default class AsteroidsController {
 		return spaceshipRadius + asteroidRadius > distance;
 	}
 	
-	checkLose (asts, spaceship, sizes) {
+	checkLose (asts, spaceship, sizes, dt) {
 
 		// let player chose when start the game
 		
 		if (!this.model.gameBegin) return this;
 
 		// check for collision between spaceship and asteroids
-
-		for (let i = 0; i < asts.length; i++) {
-			if ( this.checkIntersection(spaceship, asts[i], sizes) ) {
-				setTimeout( () => alert('You lose!'), 0);
-				document.location.reload();
-			}
-		}	
+		if (!spaceship.destroyed) {
+			for (let i = 0; i < asts.length; i++) {
+				if ( this.checkIntersection(spaceship, asts[i], sizes) ) {
+					document.removeEventListener('keydown', this.keyDownHandler);
+					document.removeEventListener('keyup', this.keyUpHandler);
+					this.view.drawExplosion(dt, spaceship, this.gameEnd.bind(this));
+					this.model.destroySpaceship();
+				}
+			}	
+		}
+		else {
+			this.view.drawExplosion(dt, spaceship, this.gameEnd.bind(this));
+		}
 		return this;
+	}
+
+	gameEnd () {
+		setTimeout( () => alert('You lose!'), 0);
+		document.location.reload();
 	}
 
 	checkWin (spaceship, sizes) {
