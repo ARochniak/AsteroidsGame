@@ -10,11 +10,11 @@ export default class MoleculesView {
 		this.asteroidImg = new Image();
 		this.spaceStationImg = new Image();
 		this.explosionImg = new Image();
-		this.spaceshipImg.src = './images/spaceship.png';
-		this.spaceshipTransparentImg.src = './images/transparent_spaceship.png';
-		this.asteroidImg.src = './images/asteroid.png';
-		this.spaceStationImg.src = './images/spacestation.png';
-		this.explosionImg.src = './images/explosion.png';
+		this.spaceshipImg.src = '../images/spaceship.png';
+		this.spaceshipTransparentImg.src = '../images/transparent_spaceship.png';
+		this.asteroidImg.src = '../images/asteroid.png';
+		this.spaceStationImg.src = '../images/spacestation.png';
+		this.explosionImg.src = '../images/explosion.png';
 	}
 
 	setCanvas (sizes) {
