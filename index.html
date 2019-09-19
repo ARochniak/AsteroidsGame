@@ -3,17 +3,14 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Asteroids</title>
-	<style>
-		#asteroidsCanvas {
-			display: block;
-			margin: 0 auto;
-			border: 5px solid;
-			background: url('./images/bg_img.png');
-			background-size: cover;
-		}
-	</style>
+	<link rel="stylesheet" href="style.css">
 </head>
 <body>
+	<div class="transparentBg">
+		<div>
+			<button id="startButton">START GAME</button>
+		</div>
+	</div>
 	<canvas id="asteroidsCanvas"></canvas>
 	<script src="./bundle.js"></script>
 </body>

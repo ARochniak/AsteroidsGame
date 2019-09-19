@@ -7,8 +7,11 @@ export default class AsteroidsController {
 
 		this.view.setCanvas(this.model.sizes);
 		this.model.setAsteroids(this.model.level);
-		this.keyDownHandler = this.keyDownHandler.bind(this);
-		this.view.bind("keydown", this.keyDownHandler);
+		this.bindKeyHandlers = this.bindKeyHandlers.bind(this);
+	}
+
+	bindKeyHandlers () {
+		this.view.bind("keydown", this.keyDownHandler.bind(this));
 		this.view.bind("keyup", this.keyUpHandler.bind(this));
 	}
 
