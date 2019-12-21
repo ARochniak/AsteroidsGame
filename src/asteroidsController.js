@@ -10,6 +10,14 @@ export default class AsteroidsController {
 		this.bindKeyHandlers = this.bindKeyHandlers.bind(this);
 	}
 
+	bindButtonsTouch () {
+		const buttons = document.querySelectorAll('.buttons div');
+		buttons.forEach( button => {
+			button.addEventListener("touchstart", this.touchStartHandler.bind(this));
+			button.addEventListener("touchend", this.touchEndHandler.bind(this));
+
+		})
+	}
 	bindKeyHandlers () {
 		this.view.bind("keydown", this.keyDownHandler.bind(this));
 		this.view.bind("keyup", this.keyUpHandler.bind(this));
@@ -75,8 +83,8 @@ export default class AsteroidsController {
 	}
 
 	gameEnd () {
-		setTimeout( () => alert('You lose!'), 0);
 		document.location.reload();
+		alert('You lose!');
 	}
 
 	checkWin (spaceship, sizes) {
@@ -92,10 +100,57 @@ export default class AsteroidsController {
 
 	keyDownHandler (e) {
 		if (e.repeat) return;
-		this.model.moveStarship(e.keyCode);
+		let direction;
+		switch(e.keyCode) {
+			case 37:
+				direction = 'left';
+				break;
+			case 38:
+				direction = 'up';
+				break;										
+			case 39:
+				direction = 'right';
+				break;
+			case 40:
+				direction = 'down';
+				break;
+		}
+		this.model.moveStarship(direction);
 	}
 
 	keyUpHandler (e) {
-		this.model.stopMovingStarship(e.keyCode);
+		let direction;
+
+		switch(e.keyCode) {
+			case 37:
+				direction = 'left';
+				break;
+			case 38:
+				direction = 'up';
+				break;										
+			case 39:
+				direction = 'right';
+				break;
+			case 40:
+				direction = 'down';
+				break;
+		}
+		this.model.stopMovingStarship(direction);
+	}
+	touchStartHandler (e) {
+		e.preventDefault();
+		const target = e.target;
+		const direction = target.textContent.toLowerCase();
+		console.log(direction);
+
+		this.model.moveStarship(direction);
+	}
+	touchEndHandler (e) {
+		e.preventDefault();
+		const target = e.target;
+		const direction = target.textContent.toLowerCase();
+		console.log(direction);
+
+		this.model.stopMovingStarship(direction);
 	}
 }

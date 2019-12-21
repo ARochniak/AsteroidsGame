@@ -10,6 +10,8 @@ const model = new AsteroidsModel(),
 controller.lastTime = Date.now();
 controller.gameRender();
 startButton.onclick = () => {
-	controller.bindKeyHandlers();
+  controller.bindKeyHandlers();
+	controller.bindButtonsTouch();
 	document.querySelector(".transparentBg").style.display = "none";
+  document.querySelector('.buttons').style.opacity = '0';
 };

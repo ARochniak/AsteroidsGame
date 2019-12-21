@@ -7,8 +7,8 @@ export default class AsteroidsModel {
 
 		this.sizes = {
 			canvas: {
-				width: 1060,
-				height: 640
+				width: window.innerWidth*0.8,
+				height: window.innerHeight*0.8
 			},
 			asteroid: 30,
 			spaceship: 60
@@ -20,9 +20,9 @@ export default class AsteroidsModel {
 
 		this.ssDirection = {
 			left: false,
-			top: false,
+			up: false,
 			right: false,
-			bottom: false
+			down: false
 		};
 
 		this.spaceship = {
@@ -102,7 +102,7 @@ export default class AsteroidsModel {
 						if (coords.x > speed * dt) coords.x -= speed * dt;
 						else coords.x = 0;
 						break;
-					case "top":
+					case "up":
 						if (coords.y > speed * dt) coords.y -= speed * dt;
 						else coords.y = 0;
 						break;
@@ -111,7 +111,7 @@ export default class AsteroidsModel {
 							coords.x += speed * dt;
 						else coords.x = sizes.canvas.width - sizes.spaceship;
 						break;
-					case "bottom":
+					case "down":
 						if (sizes.canvas.height - coords.y > sizes.spaceship + speed * dt) 
 							coords.y += speed * dt;
 						else coords.y = sizes.canvas.height - sizes.spaceship;
@@ -164,39 +164,39 @@ export default class AsteroidsModel {
 		return this;		
 	}
 
-	moveStarship (code) {
+	moveStarship (direction) {
 		if (!this.gameBegin) this.gameBegin = true;
-		const direction = this.ssDirection;
-		switch(code) {
-			case 37:
-				direction.left = true;
+		const ssDirection = this.ssDirection;
+		switch(direction) {
+			case 'left':
+				ssDirection.left = true;
 				break;
-			case 38:
-				direction.top = true;
+			case 'up':
+				ssDirection.up = true;
 				break;										
-			case 39:
-				direction.right = true;
+			case 'right':
+				ssDirection.right = true;
 				break;
-			case 40:
-				direction.bottom = true;
+			case 'down':
+				ssDirection.down = true;
 				break;
 		}
 	}
 
-	stopMovingStarship (code) {
-		const direction = this.ssDirection;
-		switch(code) {
-			case 37:
-				direction.left = false;
+	stopMovingStarship (direction) {
+		const ssDirection = this.ssDirection;
+		switch(direction) {
+			case 'left':
+				ssDirection.left = false;
 				break;
-			case 38:
-				direction.top = false;
+			case 'up':
+				ssDirection.up = false;
 				break;										
-			case 39:
-				direction.right = false;
+			case 'right':
+				ssDirection.right = false;
 				break;
-			case 40:
-				direction.bottom = false;
+			case 'down':
+				ssDirection.down = false;
 				break;
 		}
 	}

@@ -1,17 +1,19 @@
 {
-  "name": "molecules",
+  "name": "asteroids",
   "version": "1.0.0",
   "description": "",
   "main": "./src/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server --mode development --hot --open",
+    "start": "webpack-dev-server --mode development --hot --open --host 192.168.1.112",
     "build": "webpack",
     "serv": "static build"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "webpack": "^4.41.4",
+    "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.7.2"
   }
 }

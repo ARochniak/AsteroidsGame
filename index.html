@@ -3,15 +3,22 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Asteroids</title>
+	<script src='mobile_viewport.js'></script>
 	<link rel="stylesheet" href="style.css">
 </head>
 <body>
+	<canvas id="asteroidsCanvas"></canvas>
+	<div class="buttons">
+		<div class="up">UP</div>
+		<div class="right">RIGHT</div>
+		<div class="down">DOWN</div>
+		<div class="left">LEFT</div>
+	</div>
 	<div class="transparentBg">
 		<div>
 			<button id="startButton">START GAME</button>
 		</div>
 	</div>
-	<canvas id="asteroidsCanvas"></canvas>
 	<script src="./bundle.js"></script>
 </body>
 </html>
